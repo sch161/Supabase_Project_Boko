@@ -6,7 +6,7 @@ body {
   justify-content: center;
   align-items: center;
 
-  background: #f5f0e8;
+  background: #fbecd3;
   font-family: "Pretendard", sans-serif;
 }
 
@@ -68,7 +68,7 @@ body {
   cursor: pointer;
 }
 
-#login-tab {
+.tabs button.active {
   background: white;
   color: #3d2b1f;
   border-radius: 10px;
