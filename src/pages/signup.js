@@ -2,9 +2,9 @@ import logo from './assets/BokoLogo.png';
 import { renderLogin } from './login.js'
 
 export function renderSignup() {
-    const app = document.querySelector("#app");
+  const app = document.querySelector("#app");
 
-    app.innerHTML = `
+  app.innerHTML = `
     <div class="auth-container">
 
       <div class="logo">
@@ -21,6 +21,13 @@ export function renderSignup() {
         </div>
 
         <form id="login-form">
+
+          <label>이름</label>
+          <input
+            type="text"
+            id="name"
+            placeholder="홍길동"
+          >
 
           <label>이메일</label>
           <input
@@ -50,7 +57,7 @@ export function renderSignup() {
     </div>
   `;
 
-  document.querySelector("#login-tab").addEventListener("click", ()=>{
+  document.querySelector("#login-tab").addEventListener("click", () => {
     renderLogin();
   })
 };
