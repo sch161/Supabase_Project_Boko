@@ -1,5 +1,6 @@
 import logo from './assets/BokoLogo.png';
 import { renderLogin } from './login.js'
+import { supabase } from '../supabase.js';
 
 export function renderSignup() {
   const app = document.querySelector("#app");
@@ -20,7 +21,7 @@ export function renderSignup() {
           <button id="signup-tab" class="active">회원가입</button>
         </div>
 
-        <form id="login-form">
+        <form id="signup-form">
 
           <label>이름</label>
           <input
@@ -57,7 +58,36 @@ export function renderSignup() {
     </div>
   `;
 
+  // 탭 전환
   document.querySelector("#login-tab").addEventListener("click", () => {
     renderLogin();
-  })
+  });
+
+  // 회원가입
+  document.querySelector('#signup-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const name = document.querySelector('#name').value;
+    const email = document.querySelector('#email').value;
+    const password = document.querySelector('#password').value;
+
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          name: name
+        }
+      }
+    });
+
+    if (error) {
+      alert(`회원가입 실패 ${error.message}`);
+      return;
+    }
+
+    alert('회원가입 성공');
+    console.log(data);
+  });
+
 };

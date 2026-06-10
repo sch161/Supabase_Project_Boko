@@ -2,9 +2,9 @@ import logo from './assets/BokoLogo.png';
 import { renderSignup } from './signup.js'
 
 export function renderLogin() {
-    const app = document.querySelector("#app");
+  const app = document.querySelector("#app");
 
-    app.innerHTML = `
+  app.innerHTML = `
     <div class="auth-container">
 
       <div class="logo">
@@ -50,7 +50,9 @@ export function renderLogin() {
     </div>
   `;
 
-  document.querySelector("#signup-tab").addEventListener("click", ()=>{
+  // 탭 전환
+  document.querySelector("#signup-tab").addEventListener("click", () => {
     renderSignup();
-  })
+  });
+
 };
