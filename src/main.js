@@ -2,6 +2,7 @@ import { renderLogin } from "./pages/login.js";
 import logo from './pages/assets/BokoLogo.png';
 import { supabase } from "./supabase.js";
 import "./styles/style.css";
+import { renderBookShelf } from "./pages/bookshelf.js";
 
 export async function renderMain() {
     const app = document.querySelector('#app');
@@ -25,6 +26,13 @@ export async function renderMain() {
         console.error(error);
         return;
     }
+
+    // 로그인한 사용자의 책장이 1번으로 오도록 정렬
+    const sortedShelves = shelves.sort((a, b) => {
+        if (user && a.user_id === user.id) return -1;
+        if (user && b.user_id === user.id) return 1;
+        return 0;
+    });
 
     // 책장 배열 순회하면서 html 코드 문자열로 반환
     const shelvesHTML = shelves.map(shelf => {
@@ -116,10 +124,17 @@ export async function renderMain() {
         card.addEventListener('click', () => {
             if (!user) {
                 alert('로그인이 필요한 서비스입니다.');
+                renderLogin();
                 return;
             }
+            renderBookShelf(card.dataset.shelfId);
         });
     });
+
+    // 로고 클릭 시 화면 렌더링
+    document.querySelector('.logo').addEventListener('click', () => {
+        renderMain();
+    })
 }
 
 renderMain();

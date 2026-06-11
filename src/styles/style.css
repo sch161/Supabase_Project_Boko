@@ -143,6 +143,7 @@ form > button:hover {
   display: flex;
   align-items: center;
   gap: 8px;
+  cursor: pointer;
 }
 
 .header-left .logo img {
@@ -278,18 +279,22 @@ main > h2 {
   background: #8a7a5a;
   height: 90px;
 }
+
 .book-item:nth-child(2) {
   background: #5a7a4a;
   height: 110px;
 }
+
 .book-item:nth-child(3) {
   background: #7a5a8a;
   height: 100px;
 }
+
 .book-item:nth-child(4) {
   background: #5a6a8a;
   height: 95px;
 }
+
 .book-item:nth-child(5) {
   background: #8a5a5a;
   height: 105px;
@@ -344,4 +349,153 @@ main > h2 {
   font-size: 13px;
   color: #8c725e;
   margin-top: 4px;
+}
+
+.header-left-bookshelf h1 {
+  margin: 0;
+  font-size: 20px;
+  font-family: Georgia, serif;
+  color: #3d2b1f;
+}
+
+.header-left-bookshelf {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.header-left-bookshelf button {
+  border: none;
+  width: 40px;
+  height: 30px;
+  font-size: 20px;
+  border-radius: 10px;
+  background: transparent;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.header-left-bookshelf button:hover {
+  background: #ede5d8;
+}
+
+.book-container {
+  text-align: left;
+  margin-top: 100px;
+}
+
+.bookshelf-label {
+  margin: 0;
+  font-size: 13px;
+  color: #8c725e;
+}
+
+.bookshelf-title {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 700;
+  color: #3d2b1f;
+  font-family: Georgia, serif;
+}
+
+.book-container {
+  max-width: 800px;
+  margin: 100px auto 0;
+  padding: 0 40px;
+}
+
+.book-record {
+  padding: 32px 0;
+}
+
+.book-record-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.book-record-left {
+  display: flex;
+  gap: 24px;
+}
+
+.book-number {
+  font-size: 14px;
+  font-weight: 600;
+  color: #8c725e;
+  min-width: 24px;
+  padding-top: 4px;
+}
+
+.book-record-title {
+  margin: 0 0 6px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #3d2b1f;
+}
+
+.book-record-book-title {
+  margin: 0 0 6px;
+  font-size: 14px;
+  color: #8c725e;
+}
+
+.book-record-commentary {
+  margin: 0 0 10px;
+  font-size: 14px;
+  color: #5a3e2b;
+  font-style: italic;
+}
+
+.book-record-content {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.7;
+  color: #3d2b1f;
+}
+
+.book-record-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  min-width: 120px;
+}
+
+.book-record-date {
+  font-size: 13px;
+  color: #8c725e;
+  white-space: nowrap;
+}
+
+.edit-button,
+.delete-button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 4px;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid #e3d8c8;
+  margin: 0;
+}
+
+.add-button {
+  background: #4a2e1f;
+  color: white;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 0 20px;
+  height: 42px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+}
+
+.add-button:hover {
+  opacity: 0.9;
 }
