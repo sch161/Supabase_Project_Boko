@@ -87,6 +87,13 @@ export function renderSignup() {
     }
 
     alert('회원가입 성공! 로그인해주세요.');
+
+    // 회원가입 시 책장 추가
+    await supabase.from('bookshelves').insert({
+      user_id: data.user.id,
+      name: `${name}의 책장`
+    });
+
   });
 
 };

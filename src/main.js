@@ -6,7 +6,7 @@ import "./styles/style.css";
 export async function renderMain() {
     const app = document.querySelector('#app');
 
-    // 로그인한 유저 정보 가져오기
+    // 로그인한 유저 정보 가져오기, 로그인 안 하면 user -> null
     const { data: { user } } = await supabase.auth.getUser();
 
     // 전체 책장, 각 책장의 책 목록 가져오기
@@ -20,18 +20,18 @@ export async function renderMain() {
       )
     `);
 
-    // 에러 시 에러 리턴
+    // 에러 시 에러 출력, 함수 종료
     if (error) {
         console.error(error);
         return;
     }
 
-    // 책장 카드 HTML 생성
+    // 책장 배열 순회하면서 html 코드 문자열로 반환
     const shelvesHTML = shelves.map(shelf => {
-        const books = shelf.book_records;
-        const isMe = user && shelf.user_id === user.id;
+        const books = shelf.book_records; // 현재 책장에 있는 책 목록 배열
+        const isMe = user && shelf.user_id === user.id; // 책장이 로그인한 유저인지 확인
 
-        const booksHTML = books.length > 0
+        const booksHTML = books.length > 0 // 책장에 책이 있으면 div 만들기
             ? books.map(b => `<div class="book-item">${b.book_title}</div>`).join('')
             : `<div class="empty-shelf">비어 있음</div>`;
 
@@ -40,8 +40,8 @@ export async function renderMain() {
         <div class="user-label">
           <span>👤</span> ${shelf.name}
           ${isMe ? '<span class="me-badge">나</span>' : ''}
-        </div>
-        <div class="bookshelf-card">
+        </div> 
+        <div class="bookshelf-card" data-shelf-id="${shelf.id}">
           <div class="book-list">
             ${booksHTML}
           </div>
@@ -65,7 +65,7 @@ export async function renderMain() {
           </div>
         </div>
         <div class="header-right">
-          ${user
+          ${user // 로그인한 상태면 이름, 로그아웃 버튼
             ? `<span>${user.user_metadata.name ?? user.email}</span>
                <button id="logoutButton">로그아웃</button>`
             : `<button id="loginButton">로그인</button>`
@@ -87,7 +87,7 @@ export async function renderMain() {
             <span class="stat-label">등록된 책장</span>
           </div>
           <div class="stat-item">
-            <span class="stat-number">${shelves.reduce((acc, s) => acc + s.book_records.length, 0)}</span>
+            <span class="stat-number">${shelves.reduce((acc, bookCount) => acc + bookCount.book_records.length, 0)}</span>
             <span class="stat-label">전체 독서 기록</span>
           </div>
           <div class="stat-item">
@@ -109,6 +109,16 @@ export async function renderMain() {
     document.getElementById('logoutButton')?.addEventListener('click', async () => {
         await supabase.auth.signOut();
         renderMain();
+    });
+
+    // 비로그인으로 책장 클릭 시 경고창
+    document.querySelectorAll('.bookshelf-card').forEach(card => {
+        card.addEventListener('click', () => {
+            if (!user) {
+                alert('로그인이 필요한 서비스입니다.');
+                return;
+            }
+        });
     });
 }
 
