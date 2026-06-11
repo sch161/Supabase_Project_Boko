@@ -1,5 +1,115 @@
-import { renderLogin } from "./pages/login";
-import { supabase } from "./supabase";
+import { renderLogin } from "./pages/login.js";
+import logo from './pages/assets/BokoLogo.png';
+import { supabase } from "./supabase.js";
 import "./styles/style.css";
 
-renderLogin();
+export async function renderMain() {
+    const app = document.querySelector('#app');
+
+    // 로그인한 유저 정보 가져오기
+    const { data: { user } } = await supabase.auth.getUser();
+
+    // 전체 책장, 각 책장의 책 목록 가져오기
+    const { data: shelves, error } = await supabase
+        .from('bookshelves')
+        .select(`
+      *,
+      book_records (
+        id,
+        book_title
+      )
+    `);
+
+    // 에러 시 에러 리턴
+    if (error) {
+        console.error(error);
+        return;
+    }
+
+    // 책장 카드 HTML 생성
+    const shelvesHTML = shelves.map(shelf => {
+        const books = shelf.book_records;
+        const isMe = user && shelf.user_id === user.id;
+
+        const booksHTML = books.length > 0
+            ? books.map(b => `<div class="book-item">${b.book_title}</div>`).join('')
+            : `<div class="empty-shelf">비어 있음</div>`;
+
+        return `
+      <div class="user-bookshelf-card">
+        <div class="user-label">
+          <span>👤</span> ${shelf.name}
+          ${isMe ? '<span class="me-badge">나</span>' : ''}
+        </div>
+        <div class="bookshelf-card">
+          <div class="book-list">
+            ${booksHTML}
+          </div>
+          <div class="card-footer">
+            <span>${shelf.name}</span>
+            <span>${books.length}권</span>
+          </div>
+        </div>
+      </div>
+    `;
+    }).join('');
+
+    app.innerHTML = `
+    <div class="main-container">
+
+      <header class="header">
+        <div class="header-left">
+          <div class="logo">
+            <img src="${logo}">
+            <h1>Boko</h1>
+          </div>
+        </div>
+        <div class="header-right">
+          ${user
+            ? `<span>${user.user_metadata.name ?? user.email}</span>
+               <button id="logoutButton">로그아웃</button>`
+            : `<button id="loginButton">로그인</button>`
+        }
+        </div>
+      </header>
+
+      <main>
+        <p>모두의 서재</p>
+        <h2>지금 읽고 있는 사람들</h2>
+
+        <div class="bookshelf-grid">
+          ${shelvesHTML}
+        </div>
+
+        <div class="stats-bar">
+          <div class="stat-item">
+            <span class="stat-number">${shelves.length}</span>
+            <span class="stat-label">등록된 책장</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">${shelves.reduce((acc, s) => acc + s.book_records.length, 0)}</span>
+            <span class="stat-label">전체 독서 기록</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">${user ? shelves.find(s => s.user_id === user.id)?.book_records.length ?? 0 : 0}</span>
+            <span class="stat-label">내가 읽은 책</span>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  `;
+
+    // 로그인 버튼
+    document.getElementById('loginButton')?.addEventListener('click', () => {
+        renderLogin();
+    });
+
+    // 로그아웃 버튼
+    document.getElementById('logoutButton')?.addEventListener('click', async () => {
+        await supabase.auth.signOut();
+        renderMain();
+    });
+}
+
+renderMain();

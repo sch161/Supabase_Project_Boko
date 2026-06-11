@@ -1,6 +1,7 @@
 import logo from './assets/BokoLogo.png';
 import { renderSignup } from './signup.js'
 import { supabase } from '../supabase.js';
+import { renderMain } from '../main.js';
 
 export function renderLogin() {
   const app = document.querySelector("#app");
@@ -64,9 +65,9 @@ export function renderLogin() {
     const password = document.querySelector('#password').value;
 
     const { data, error } = await supabase.auth.signInWithPassword({
-    email,
-    password
-  });
+      email,
+      password
+    });
 
     if (error) {
       alert(`로그인 실패 ${error.message}`);
@@ -74,7 +75,7 @@ export function renderLogin() {
     }
 
     alert('로그인 성공');
-    console.log(data);
+    renderMain();
   });
 
 };

@@ -87,7 +87,6 @@ export function renderSignup() {
     }
 
     alert('회원가입 성공! 로그인해주세요.');
-    console.log(data);
   });
 
 };

@@ -1,15 +1,16 @@
+/* ── 기본 ── */
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
   background: #fbecd3;
   font-family: "Pretendard", sans-serif;
 }
 
+/* ── 인증 페이지 (로그인 / 회원가입) ── */
 .auth-container {
   width: 390px;
   margin: 0 auto;
@@ -17,23 +18,23 @@ body {
   text-align: center;
 }
 
-.logo {
+.auth-container .logo {
   margin-bottom: 25px;
 }
 
-.logo img {
+.auth-container .logo img {
   width: 65px;
   height: 65px;
 }
 
-.logo h1 {
+.auth-container .logo h1 {
   margin: 12px 0 6px;
   font-size: 46px;
   font-family: Georgia, serif;
   color: #3d2b1f;
 }
 
-.logo p {
+.auth-container .logo p {
   margin: 0;
   font-size: 15px;
   color: #8c725e;
@@ -46,8 +47,6 @@ body {
   padding: 25px;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
 }
-
-/* 탭 */
 
 .tabs {
   display: flex;
@@ -66,22 +65,18 @@ body {
   font-weight: 600;
   color: #8c725e;
   cursor: pointer;
+  border-radius: 10px;
 }
 
 .tabs button.active {
   background: white;
   color: #3d2b1f;
-  border-radius: 10px;
 }
-
-/* 입력 */
 
 label {
   display: block;
   text-align: left;
-
   margin-bottom: 4px;
-
   font-size: 14px;
   font-weight: 600;
   color: #8c725e;
@@ -90,17 +85,11 @@ label {
 input {
   width: 100%;
   height: 46px;
-
-  box-sizing: border-box;
-
   padding: 0 16px;
   margin-bottom: 18px;
-
   border: 1px solid #d8cdbd;
   border-radius: 10px;
-
   background: #ede5d8;
-
   font-size: 15px;
 }
 
@@ -109,38 +98,250 @@ input:focus {
   border-color: #4a2e1f;
 }
 
-/* 로그인 버튼 */
-
 form > button {
   width: 100%;
   height: 48px;
-
   margin-top: 4px;
-
   border: none;
   border-radius: 10px;
-
   background: #4a2e1f;
   color: white;
-
   font-size: 17px;
   font-weight: 700;
-
   cursor: pointer;
 }
 
 form > button:hover {
-  opacity: 0.95;
+  opacity: 0.9;
 }
-
-/* 푸터 */
 
 .footer {
   margin-top: 25px;
   margin-bottom: 15px;
-
   text-align: center;
-
   font-size: 14px;
   color: #8c725e;
+}
+
+/* ── 헤더 ── */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  background: #fbecd3;
+  border-bottom: 1px solid #e3d8c8;
+  z-index: 100;
+}
+
+.header-left .logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-left .logo img {
+  width: 28px;
+  height: 28px;
+}
+
+.header-left .logo h1 {
+  margin: 0;
+  font-size: 22px;
+  font-family: Georgia, serif;
+  color: #3d2b1f;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-right button {
+  padding: 0 20px;
+  height: 38px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: #3d2b1f;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.header-right button:hover {
+  background: #ede5d8;
+}
+
+/* ── 메인 ── */
+.main-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 94px 40px 40px;
+}
+
+main > p {
+  margin: 0 0 6px;
+  font-size: 14px;
+  color: #8c725e;
+}
+
+main > h2 {
+  margin: 0 0 32px;
+  font-size: 30px;
+  font-weight: 700;
+  color: #3d2b1f;
+}
+
+/* ── 유저 라벨 ── */
+.user-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #3d2b1f;
+}
+
+.me-badge {
+  background: #c8a97e;
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 6px;
+}
+
+/* ── 책장 그리드 ── */
+.bookshelf-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.bookshelf-card {
+  background: #1a1108;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+.user-bookshelf-card:hover {
+  transform: translateY(-2px);
+}
+
+/* ── 책 목록 (책장 시각화) ── */
+.book-list {
+  height: 160px;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 20px;
+  gap: 6px;
+  position: relative;
+}
+
+.book-list::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 14px;
+  background: #7a5230;
+}
+
+.book-item {
+  width: 28px;
+  border-radius: 3px 3px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  writing-mode: vertical-rl;
+  font-size: 10px;
+  color: white;
+  font-weight: 600;
+  margin-bottom: 14px;
+  z-index: 1;
+  padding: 8px 0;
+}
+
+.book-item:nth-child(1) {
+  background: #8a7a5a;
+  height: 90px;
+}
+.book-item:nth-child(2) {
+  background: #5a7a4a;
+  height: 110px;
+}
+.book-item:nth-child(3) {
+  background: #7a5a8a;
+  height: 100px;
+}
+.book-item:nth-child(4) {
+  background: #5a6a8a;
+  height: 95px;
+}
+.book-item:nth-child(5) {
+  background: #8a5a5a;
+  height: 105px;
+}
+
+.empty-shelf {
+  width: 100%;
+  text-align: center;
+  color: #5a4a3a;
+  font-size: 14px;
+  padding-bottom: 20px;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  color: #d4c4a8;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* ── 하단 통계 ── */
+.stats-bar {
+  display: flex;
+  background: #f5ede0;
+  border-radius: 16px;
+  padding: 28px 0;
+  margin-top: 8px;
+}
+
+.stat-item {
+  flex: 1;
+  text-align: center;
+  border-right: 1px solid #e0d4c0;
+}
+
+.stat-item:last-child {
+  border-right: none;
+}
+
+.stat-number {
+  display: block;
+  font-size: 30px;
+  font-weight: 700;
+  color: #3d2b1f;
+}
+
+.stat-label {
+  display: block;
+  font-size: 13px;
+  color: #8c725e;
+  margin-top: 4px;
 }
