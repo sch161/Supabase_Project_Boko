@@ -86,7 +86,7 @@ export function renderSignup() {
       return;
     }
 
-    alert('회원가입 성공');
+    alert('회원가입 성공! 로그인해주세요.');
     console.log(data);
   });
 
