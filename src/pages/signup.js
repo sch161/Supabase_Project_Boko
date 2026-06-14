@@ -86,7 +86,7 @@ export function renderSignup() {
       return;
     }
 
-    alert('회원가입 성공! 로그인해주세요.');
+    alert('회원가입 성공! 이메일을 확인해주세요.');
 
     // 회원가입 시 책장 추가
     await supabase.from('bookshelves').insert({

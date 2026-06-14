@@ -74,6 +74,13 @@ export function renderLogin() {
       return;
     }
 
+    // 이메일 인증 확인
+    if (!data.user.email_confirmed_at) {
+      alert('이메일 인증 후 로그인해주세요.');
+      await supabase.auth.signOut();
+      return;
+    }
+
     alert('로그인 성공');
     renderMain();
   });
