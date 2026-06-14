@@ -381,8 +381,9 @@ main > h2 {
 }
 
 .book-container {
-  text-align: left;
-  margin-top: 100px;
+  max-width: 1000px;
+  margin: 100px auto 0;
+  padding: 0 20px;
 }
 
 .bookshelf-label {
@@ -478,6 +479,10 @@ main > h2 {
   padding: 4px;
 }
 
+.delete-button:hover {
+  color: red;
+}
+
 .divider {
   border: none;
   border-top: 1px solid #e3d8c8;
@@ -498,4 +503,117 @@ main > h2 {
 
 .add-button:hover {
   opacity: 0.9;
+}
+
+.empty-bookshelf {
+  height: 300px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: #8b8175;
+  font-size: 1.2rem;
+}
+
+.write-form.hidden {
+  display: none;
+}
+
+/* 독후감 작성 폼 */
+.write-form {
+  max-width: 1000px;
+  margin: 0 auto 40px;
+
+  background: #fff;
+  border: 2px solid #9a6943;
+  border-radius: 24px;
+
+  padding: 36px;
+}
+
+.write-form h2 {
+  margin: 0 0 32px;
+  font-size: 32px;
+  color: #3d2b1f;
+}
+
+.form-row {
+  display: flex;
+  gap: 20px;
+}
+
+.form-group {
+  flex: 1;
+}
+
+.form-group label {
+  margin-bottom: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #8c725e;
+}
+
+.write-form input,
+.write-form textarea {
+  width: 100%;
+  border: 1px solid #d7c9b8;
+  border-radius: 16px;
+  background: #ede5d8;
+
+  font-size: 16px;
+  color: #3d2b1f;
+}
+
+.write-form input {
+  height: 50px;
+  padding: 0 20px;
+}
+
+.write-form textarea {
+  width: 100%;
+  height: 180px;
+
+  padding: 18px;
+
+  border: 1px solid #d8cdbd;
+  border-radius: 14px;
+
+  background: #ede5d8;
+
+  resize: none;
+
+  margin-bottom: 10px;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+
+  margin-top: 10px;
+}
+
+#cancelButton {
+  width: 80px;
+  height: 48px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: #e8dece;
+  color: #6b5847;
+}
+
+#saveButton {
+  width: 120px;
+  height: 48px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: #4a2e1f;
+  color: white;
+
+  font-weight: 700;
 }

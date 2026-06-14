@@ -2,6 +2,8 @@ import { renderMain } from "../main";
 import { supabase } from "../supabase";
 
 export async function renderBookShelf(shelfId) {
+
+
     const app = document.querySelector('#app');
 
     // 로그인 한 유저 정보 가져오기
@@ -15,7 +17,7 @@ export async function renderBookShelf(shelfId) {
         .single();
 
     // 책 목록 가져오기 (시간 순 오름차순 정렬)
-    const { data: book, error } = await supabase
+    const { data: books, error } = await supabase
         .from('book_records')
         .select('*')
         .eq('bookshelf_id', shelfId)
@@ -28,6 +30,71 @@ export async function renderBookShelf(shelfId) {
 
     const isMe = user && shelf.user_id === user.id;
 
+    const booksHtml = books.length === 0 ?
+        `
+        <div class="empty-bookshelf">
+          책장이 비어있습니다.
+        </div>
+        ` :
+        books.map((book, index) => `
+            <div class="book-record">
+                <div class="book-record-top">
+
+                    <div class="book-record-left">
+                        <span class="book-number">
+                            ${String(index + 1).padStart(2, '0')}
+                        </span>
+
+                        <div class="book-record-info">
+                            <h2 class="book-record-title">
+                                ${book.title}
+                            </h2>
+
+                            <p class="book-record-book-title">
+                                『${book.book_title}』
+                            </p>
+
+                            <p class="book-record-commentary">
+                                "${book.book_commentary}"
+                            </p>
+
+                            ${isMe ? `
+                                <p class="book-record-content">
+                                    ${book.book_content}
+                                </p>
+                            ` : ''}
+                        </div>
+                    </div>
+
+                    <div class="book-record-right">
+
+                        <span class="book-record-date">
+                            ${book.created_at.slice(0, 10)}
+                        </span>
+
+                        ${isMe ? `
+                            <button
+                                class="edit-button"
+                                data-id="${book.id}">
+                                ✎
+                            </button>
+
+                            <button
+                                class="delete-button"
+                                data-id="${book.id}">
+                                🗑
+                            </button>
+                        ` : ''}
+
+                    </div>
+
+                </div>
+            </div>
+
+            <hr class="divider">
+        `).join('');
+
+
     app.innerHTML = `
     <div class="bookshelf-container">
 
@@ -35,7 +102,6 @@ export async function renderBookShelf(shelfId) {
             <div class="header-left-bookshelf">
                 <button id="backButton">←</button>
                 <div>
-                    <p class="bookshelf-label">${shelf.name}</p>
                     <h1 class="bookshelf-title">${shelf.name}</h1>
                 </div>
             </div>
@@ -46,70 +112,41 @@ export async function renderBookShelf(shelfId) {
 
         <main>
             <div class="book-container">
-                    <div class="book-record">
-                        <div class="book-record-top">
-                            <div class="book-record-left">
-                                <span class="book-number">01</span>
-                                <div class="book-record-info">
-                                    <h2 class="book-record-title">인간 실격을 읽고</h2>
-                                    <p class="book-record-book-title">『인간 실격』</p>
-                                    <p class="book-record-commentary">"인간이라는 존재를 다시 생각하게 만드는 잔인한 자서전"</p>
-                                    ${isMe ? `<p class="book-record-content">다자이 오사무의 인간 실격은 자신을 끊임없이 부정하는 한 남자의 이야기다. 요조의 시선으로 세상을 바라보면, 우리가 당연하게 여기는 모든 것이 낯설고 두렵게 느껴진다. 읽는 내내 불편했지만, 그 불편함이야말로 이 책의 힘이라고 생각했다.</p>` : ''}
-                                </div>
-                            </div>
-                            <div class="book-record-right">
-                                <span class="book-record-date">🗓 2024-03-15</span>
-                                ${isMe ? `
-                                    <button class="edit-button" data-id="${book.id}">✏️</button>
-                                    <button class="delete-button" data-id="${book.id}">🗑</button>
-                                ` : ''}
-                            </div>
-                        </div>
-                    </div>
-                    <hr class="divider">
 
-                    <div class="book-record">
-                        <div class="book-record-top">
-                            <div class="book-record-left">
-                                <span class="book-number">02</span>
-                                <div class="book-record-info">
-                                    <h2 class="book-record-title">채식주의자가 남긴 것</h2>
-                                    <p class="book-record-book-title">『채식주의자』</p>
-                                    <p class="book-record-commentary">"폭력과 순결 사이, 꽃이 되고 싶었던 한 사람의 이야기"</p>
-                                    ${isMe ? `<p class="book-record-content">한강의 문장은 차갑고 정확하다. 영혜의 선택이 가족에게 가져오는 혼란을 통해, 우리 사회가 개인의 몸과 의지를 어떻게 통제하려 하는지를 섬뜩하게 그려낸다.</p>` : ''}
-                                </div>
-                            </div>
-                            <div class="book-record-right">
-                                <span class="book-record-date">🗓 2024-05-22</span>
-                                ${isMe ? `
-                                    <button class="edit-button" data-id="${book.id}">✏️</button>
-                                    <button class="delete-button" data-id="${book.id}">🗑</button>
-                                ` : ''}
-                            </div>
-                        </div>
-                    </div>
-                    <hr class="divider">
+                <div id="writeForm" class="write-form hidden">
 
-                    <div class="book-record">
-                        <div class="book-record-top">
-                            <div class="book-record-left">
-                                <span class="book-number">03</span>
-                                <div class="book-record-info">
-                                    <h2 class="book-record-title">노르웨이의 숲에서 길을 잃다</h2>
-                                    <p class="book-record-book-title">『노르웨이의 숲』</p>
-                                    <p class="book-record-commentary">"젊음의 상실을 이토록 아름답게 그린 소설"</p>
-                                    ${isMe ? `<p class="book-record-content">무라카미 하루키 특유의 감성이 가득한 소설. 상실과 성장을 이렇게 담담하게 그릴 수 있다는 것이 놀라웠다.</p>` : ''}
-                                </div>
-                            </div>
-                            <div class="book-record-right">
-                                <span class="book-record-date">🗓 2024-05-22</span>
-                                ${isMe ? `
-                                    <button class="edit-button" data-id="${book.id}">✏️</button>
-                                    <button class="delete-button" data-id="${book.id}">🗑</button>
-                                ` : ''}
-                            </div>
+                    <h2>새 독후감</h2>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>독후감 제목 *</label>
+                            <input id="title" placeholder="이 글의 제목">
+                        </div>
+
+                        <div class="form-group">
+                            <label>책 제목 *</label>
+                            <input id="bookTitle" placeholder="읽은 책 제목">
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <label>내용</label>
+                        <textarea id="content" placeholder="책에 대한 생각, 인상 깊었던 부분 등을 자유롭게 적어보세요."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>한줄평</label>
+                        <input type="text" id="commentary" placeholder="이 책을 한 문장으로 표현한다면?">
+                    </div>
+
+                    <div class="form-buttons">
+                        <button id="cancelButton">취소</button>
+                        <button id="saveButton">저장하기</button>
+                    </div>
+
+                </div>
+
+                ${booksHtml}
             </div>
         </main>
 
@@ -120,4 +157,131 @@ export async function renderBookShelf(shelfId) {
     document.getElementById('backButton')?.addEventListener('click', () => {
         renderMain();
     });
+
+    // 독후감 폼 열기 (+ 독후감 쓰기)
+    document.getElementById('addButton')?.addEventListener('click', () => {
+        document.getElementById('writeForm').classList.remove('hidden');
+    });
+
+    // 독후감 폼 닫기 (취소)
+    document.getElementById('cancelButton')?.addEventListener('click', () => {
+        editingBookId = null;
+
+        document.getElementById('title').value = '';
+        document.getElementById('bookTitle').value = '';
+        document.getElementById('content').value = '';
+        document.getElementById('commentary').value = '';
+
+        document.getElementById('saveButton').textContent = '저장하기';
+
+        document.getElementById('writeForm').classList.add('hidden');
+    });
+
+    // 독후감 추가 (저장하기)
+    document.getElementById('saveButton')?.addEventListener('click', async () => {
+
+        const title = document.getElementById('title').value;
+        const bookTitle = document.getElementById('bookTitle').value;
+        const content = document.getElementById('content').value;
+        const commentary = document.getElementById('commentary').value;
+
+        if (!title || !bookTitle || !content || !commentary) {
+            alert('모든 항목을 입력해주세요.');
+            return;
+        }
+
+        let error;
+
+        if (editingBookId) {
+
+            const result = await supabase
+                .from('book_records')
+                .update({
+                    title,
+                    book_title: bookTitle,
+                    book_content: content,
+                    book_commentary: commentary
+                })
+                .eq('id', editingBookId);
+
+            error = result.error;
+
+        } else {
+
+            const result = await supabase
+                .from('book_records')
+                .insert({
+                    bookshelf_id: shelfId,
+                    user_id: user.id,
+                    title,
+                    book_title: bookTitle,
+                    book_content: content,
+                    book_commentary: commentary
+                });
+
+            error = result.error;
+        }
+
+        if (error) {
+            console.error(error);
+            alert('저장 실패');
+            return;
+        }
+
+        alert(editingBookId ? '수정 완료' : '작성 완료');
+
+        renderBookShelf(shelfId);
+    });
+
+    // 독후감 삭제 (휴지통)
+    document.querySelectorAll('.delete-button').forEach((button) => {
+
+        button.addEventListener('click', async () => {
+
+            const bookId = button.dataset.id;
+
+            const sure = confirm('정말 삭제하시겠습니까?');
+
+            if (!sure) return;
+
+            const { data, error } = await supabase
+                .from('book_records')
+                .delete()
+                .eq('id', bookId);
+
+
+            if (error) {
+                console.error(error);
+                alert('삭제 실패');
+                return;
+            }
+
+            alert('삭제 완료');
+
+            renderBookShelf(shelfId);
+        });
+    });
+
+    // 독후감 수정 (연필)
+    let editingBookId = null;
+    document.querySelectorAll('.edit-button').forEach((button) => {
+
+        button.addEventListener('click', () => {
+
+            const bookId = button.dataset.id;
+
+            const book = books.find(bf => bf.id === bookId);
+
+            editingBookId = bookId;
+
+            document.getElementById('title').value = book.title;
+            document.getElementById('bookTitle').value = book.book_title;
+            document.getElementById('content').value = book.book_content;
+            document.getElementById('commentary').value = book.book_commentary;
+
+            document.getElementById('writeForm').classList.remove('hidden');
+            document.getElementById('saveButton').textContent = '수정하기';
+        });
+    });
+
 }
