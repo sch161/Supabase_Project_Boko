@@ -104,8 +104,8 @@ export async function renderMain() {
       </header>
 
       <main>
-        <p>모두의 서재</p>
-        <h2>지금 읽고 있는 사람들</h2>
+        <p>인생 서재</p>
+        <h2>다섯 권으로 보는 나</h2>
 
         <div class="bookshelf-grid">
           ${shelvesHTML}

@@ -159,7 +159,17 @@ export async function renderBookShelf(shelfId) {
     });
 
     // 독후감 폼 열기 (+ 독후감 쓰기)
-    document.getElementById('addButton')?.addEventListener('click', () => {
+    document.getElementById('addButton')?.addEventListener('click', async () => {
+        const { count } = await supabase
+            .from('book_records')
+            .select('*', { count: 'exact', head: true })
+            .eq('bookshelf_id', shelfId);
+
+        if (count >= 5) {
+            alert('독후감은 최대 5권까지 등록할 수 있습니다.');
+            return;
+        }
+
         document.getElementById('writeForm').classList.remove('hidden');
     });
 

@@ -321,7 +321,7 @@ main > h2 {
 /* ── 하단 통계 ── */
 .stats-bar {
   display: flex;
-  background: #f5ede0;
+  background: #f4debc;
   border-radius: 16px;
   padding: 28px 0;
   margin-top: 8px;
@@ -525,7 +525,7 @@ main > h2 {
   max-width: 1000px;
   margin: 0 auto 40px;
 
-  background: #fff;
+  background: #faf2e6;
   border: 2px solid #9a6943;
   border-radius: 24px;
 
@@ -559,7 +559,7 @@ main > h2 {
   width: 100%;
   border: 1px solid #d7c9b8;
   border-radius: 16px;
-  background: #ede5d8;
+  background: #fdfdfd;
 
   font-size: 16px;
   color: #3d2b1f;
@@ -579,7 +579,7 @@ main > h2 {
   border: 1px solid #d8cdbd;
   border-radius: 14px;
 
-  background: #ede5d8;
+  background: #fdfdfd;
 
   resize: none;
 
